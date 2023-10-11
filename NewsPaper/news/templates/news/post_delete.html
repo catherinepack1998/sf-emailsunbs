@@ -1,0 +1,30 @@
+{% extends 'layout/default.html' %}
+
+
+{% block title %}
+Удаление новости
+{% endblock title %}
+
+{% block content %}
+
+<h3>Удалить запись?</h3>
+<div class="card">
+ <div class="card-header">
+   <h3>
+     {{ post.name }}
+   </h3>
+   <div>
+     Заголовок: <span class="badge bg-info">{{ post.title }}</span>
+     Тип: <span class="badge bg-info">{{ post.get_type_display }}</span>
+   </div>
+ </div>
+ <div class="card-body">
+   {{ post.description }}
+ </div>
+</div>
+<form method="POST">
+ {% csrf_token %}
+   <input class="btn btn-success" type="submit" value="Удалить">
+</form>
+
+{% endblock content %}

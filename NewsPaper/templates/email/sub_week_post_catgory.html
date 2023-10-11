@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Новости недели</title>
+</head>
+<body>
+ <h1>Добрый день, любимый читатель!</h1>
+<h3>Мы подготовили подборку новостей за неделю, в твоей любимой категории - {{ category }}</h3>
+<p>Приятного чтения!</p>
+{% for post in posts %}
+    <a href="http://127.0.0.1:8000/news/{{ post.pk }}/"> {{ post.title }}</a>
+{% endfor %}
+
+
+</body>
+</html>

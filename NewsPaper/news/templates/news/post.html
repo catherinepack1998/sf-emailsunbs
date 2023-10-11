@@ -1,0 +1,15 @@
+{% extends 'layout/default.html' %}
+
+{% block title %}
+Новость
+{% endblock title %}
+
+{% block content %}
+
+<h1>{{ post.title }}</h1>
+<hr>
+{{ post.createData|date:'d-m-Y h:m' }}
+<hr> 
+{{ post.articleText }}
+
+{% endblock content %}

@@ -1,0 +1,39 @@
+{% extends "main.html" %}
+
+{% block title %}
+  Пользователь
+{% endblock title %}
+
+{% block content %}
+ <h2>
+   Страница авторизованного пользователя {{request.user.username}}
+ </h2>
+
+ <div>
+   В данном разделе может содержаться различная информация о пользователе 
+ </div>
+
+  {% if is_not_authors %}
+  <div>
+    <a class="btn btn-info" href="upgrade-authors/">
+      Стать автором
+    </a>
+  </div>
+  {% else %}
+  <div>
+    <p>
+      Вы состоите в группе авторов. Спасибо за ваш труд!
+    </p>
+  </div>
+  {% endif %}
+
+  <div>
+    <a class="btn btn-info" href="{% url 'news:posts' %}">
+      Перейти к новостям
+    </a>
+    <a class="btn btn-primary" href="sign/logout/">Выйти</a>
+  </div>
+
+
+
+{% endblock content %} 

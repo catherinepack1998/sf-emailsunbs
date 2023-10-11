@@ -1,0 +1,124 @@
+Windows PowerShell
+(C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
+
+Попробуйте новую кроссплатформенную оболочку PowerShell (https://aka.ms/pscore6)
+
+PS C:\Users\allov\PycharmProjects\pythonProject2> cd newspaper
+PS C:\Users\allov\PycharmProjects\pythonProject2\newspaper> python manage.py makemigrations
+No changes detected
+PS C:\Users\allov\PycharmProjects\pythonProject2\newspaper> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, news, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK     
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying news.0001_initial... OK
+  Applying news.0002_rename_user_author_authoruser... OK
+  Applying news.0003_rename_authorrating_author_rating_and_more... OK
+  Applying sessions.0001_initial... OK
+PS C:\Users\allov\PycharmProjects\pythonProject2\newspaper> py manage.py shell
+Python 3.8.6 (tags/v3.8.6:db45529, Sep 23 2020, 15:52:53) [MSC v.1927 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from news.models import *
+>>> user1 = User.objects.create_user(username='Marie',first_name = 'Mary')
+>>> Author.objects.create(authorUser=user1)
+<Author: Author object (1)>
+>>> user3 = User.objects.create(username='Flora',first_name = 'Flo')
+>>> Author.objects.create(authorUser=user3)
+<Author: Author object (2)>
+>>> Category.objects.create(categoryName='politics')
+<Category: Category object (1)>
+>>> Category.objects.create(categoryName='health')
+<Category: Category object (2)>
+>>> Category.objects.create(categoryName='sport')
+<Category: Category object (3)>
+>>> Category.objects.create(categoryName='hi-tech')
+<Category: Category object (4)>
+>>> Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Marie')), type = 'NW', title = 'Title 1', articleText='Text 1')
+<Post: Post object (1)>
+>>> Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Marie')), type = 'AT', title = 'Title 2', articleText='Text 2')
+<Post: Post object (2)>
+>>> Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Flora')), type = 'AT', title = 'Tittle 3', articleText='Text 3')
+<Post: Post object (3)>
+>>> post1 = Post.objects.get(title='Title 1')
+>>> post2 = Post.objects.get(title='Title 2')
+>>> post3 = Post.objects.get(title='Tittle 3')
+>>> ctg1 = Category.objects.get(categoryName='politics')
+>>> ctg2 = Category.objects.get(categoryName='health')
+>>> ctg3 = Category.objects.get(categoryName='sport')
+>>> ctg4 = Category.objects.get(categoryName='hi-tech')
+>>> post1.postCategory.add(ctg1)
+>>> post2.postCategory.add(ctg2,ctg4)
+>>> post3.postCategory.add(ctg3)
+>>> Comment.objects.create(commentUser=User.objects.get(username='Marie'), commentPost=Post.objects.get(title='Title 1'), commentText='comment 1')
+<Comment: Marie>
+>>> Comment.objects.create(commentUser=User.objects.get(username='Marie'), commentPost=Post.objects.get(title='Title 2'), commentText='comment 2')
+<Comment: Marie>
+>>> Comment.objects.create(commentUser=User.objects.get(username='Marie'), commentPost=Post.objects.get(title='Title 2'), commentText='comment 3')
+<Comment: Marie>
+>>> Comment.objects.create(commentUser=User.objects.get(username='Flora'), commentPost=Post.objects.get(title='Tittle 3'), commentText='comment 4')
+<Comment: Flora>
+>>> Post.objects.get(title='Title 1').like()
+>>> Post.objects.get(title='Title 1').like()
+>>> Post.objects.get(title='Title 1').like()
+>>> Post.objects.get(title='Title 1').like()
+>>> Post.objects.get(title='Title 1').dislike()
+>>> Post.objects.get(title='Title 2').like()
+>>> Post.objects.get(title='Title 2').like()
+>>> Post.objects.get(title='Tittle 3').like()
+>>> Post.objects.get(title='Tittle 3').like()
+>>> Post.objects.get(title='Tittle 3').like()
+>>> Post.objects.get(title='Tittle 3').like()
+>>> Post.objects.get(title='Tittle 3').dislike()
+>>> Post.objects.get(title='Tittle 3').like()
+>>> Comment.objects.get(pk=1).like()
+>>> Comment.objects.get(pk=1).like()
+>>> Comment.objects.get(pk=2).like()
+>>> Comment.objects.get(pk=3).like()
+>>> Comment.objects.get(pk=3).like()
+>>> Comment.objects.get(pk=3).like()
+>>> Comment.objects.get(pk=3).dislike()
+>>> Comment.objects.get(pk=4).like()
+>>> Comment.objects.get(pk=4).like()
+>>> Author.objects.get(authorUser=User.objects.get(username='Marie'))
+.update_rating()
+>>> Author.objects.get(authorUser=User.objects.get(username='Flora'))
+.update_rating()
+>>> Author.objects.get(authorUser=User.objects.get(username='Flora'))
+.rating
+14
+>>> Author.objects.get(authorUser=User.objects.get(username='Marie'))
+.rating
+20
+>>> bestrating=Author.objects.all().order_by('-rating').values('authorUser','rating')[0]
+>>> print(bestrating)
+{'authorUser': 1, 'rating': 20}
+>>> a = Author.objects.order_by('-rating').first()
+>>> print(f'Имя пользователя: {a.authorUser.username}, Рейтинг: {a.rating}')
+Имя пользователя: Marie, Рейтинг: 20
+>>> bestpost=Post.objects.all().values('createData','author','rating','title').order_by('-rating')[0]
+>>> textpreview=Post.objects.order_by('-rating').first().preview()
+>>> print(bestpost,textpreview)
+{'createData': datetime.datetime(2023, 7, 31, 12, 51, 38, 6635, tzinfo=datetime.timezone.utc), 'author': 2, 'rating': 4, 'title': 'Tittle 3'} Text 3...
+>>> bestpost=Post.objects.all().values('createData','author','rating','title','pk').order_by('-rating')[0]
+>>> print(bestpost) 
+{'createData': datetime.datetime(2023, 7, 31, 12, 51, 38, 6635, tzinfo=datetime.timezone.utc), 'author': 2, 'rating': 4, 'title': 'Tittle 3', 'pk': 3}
+>>> Comment.objects.filter(commentPost__pk = 3).values('commentCreateData','commentUser','rating','commentText')
+<QuerySet [{'commentCreateData': datetime.datetime(2023, 7, 31, 12, 57, 26, 699691, tzinfo=datetime.timezone.utc), 'commentUser': 2, 'rating': 2, 'commentText': 'comment 4'}]>
+
+

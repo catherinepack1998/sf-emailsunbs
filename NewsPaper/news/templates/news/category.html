@@ -1,0 +1,26 @@
+{% extends 'layout/default.html' %}
+{% block title %}
+Категория | {{ category }}
+{% endblock title %}
+
+{% block content %}
+<div>
+<center>
+<p>Выбранная категория: <b>{{ category }}</b></p>
+
+{% if user not in subscribers %}
+    <form action="{% url 'news:subscribe_category' category.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Подписаться"/>
+    </form>
+{% else %}
+    <form action="{% url 'news:unsubscribe_category' category.pk %}" method="POST">
+        <p>Вы подписаны!</p>
+        {% csrf_token %}
+        <input type="submit" value="Отписаться"/>
+    </form>
+{% endif %}
+</center>
+</div>
+
+{% endblock content %}

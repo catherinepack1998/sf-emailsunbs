@@ -1,0 +1,28 @@
+{% extends 'layout/default.html' %}
+
+
+{% block title %}
+Новость
+{% endblock title %}
+
+{% block content %}
+<div class="card">
+ <div class="card-header">
+   <h3>
+     {{ post.name }}
+   </h3>
+   <div>
+     Заголовок: <span class="badge bg-info">{{ post.title }}</span>
+     Tип: <span class="badge bg-info">{{ post.get_type_display }}</span>
+     Категории: 
+     {% for category in post.postCategory.all %}
+      <a href="{% url 'news:category' category.id %}"> {{ category }}</a>
+     {% endfor %}
+   </div>
+ </div>
+ <div class="card-body">
+   {{ post.description }}
+ </div>
+</div>
+
+{% endblock content %}
